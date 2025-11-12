@@ -1,0 +1,19 @@
+  {
+      "name": "My Linux & Networking SBT",
+      "description": "A Soulbound Token commemorating my journey into IT infrastructure, learning Linux and CCNA.",
+      "image": "ipfs://bafybeicyab7ivfs3sa67h3a55yp3ve74fs4lzl3zedwtkkgdjrhx4hnxbu",
+      "attributes": [
+        {
+          "trait_type": "Skill",
+          "value": "Linux"
+        },
+        {
+          "trait_type": "Skill",
+          "value": "Networking"
+        },
+        {
+          "trait_type": "Project",
+          "value": "UTokyo NFT"
+        }
+      ]
+    }
