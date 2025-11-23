@@ -65,4 +65,16 @@ describe("MyNFT", function () {
       ).to.be.revertedWith("ERC721: token transfer is disabled");
     });
   });
+   describe("SBT Interface (IERC5192)", function () {
+    it("Should be locked", async function () {
+      const { myNft, owner } = await loadFixture(deployMyNftFixture);
+      
+      // ミントする
+      await myNft.connect(owner).safeMint(owner.address, "https://example.com/sbt.json");
+      const tokenId = 0;
+
+      // locked関数を呼び出して、trueが返ってくるか確認する
+      expect(await myNft.locked(tokenId)).to.equal(true);
+    });
+  });
 });

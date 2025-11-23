@@ -1,0 +1,23 @@
+{
+  "name": "SBT CERTIFIED ENGINEER", 
+  "description": "Proof of Certified Engineer participation in the UTokyo Blockchain Course development team.",
+  "image": "ipfs://bafybeih7awftbjf725iyopmxmcfgdkz75mwnpisdf7wzaup4hpdys4ba6u",
+  "attributes": [
+    {
+      "trait_type": "Role",
+      "value": "Infrastructure Engineer"
+    },
+    {
+      "trait_type": "Skill",
+      "value": "Linux & Network"
+    },
+    {
+      "trait_type": "Type",
+      "value": "SBT"
+    },
+    {
+      "trait_type": "Project",
+      "value": "UTokyo NFT"
+    }
+  ]
+}
