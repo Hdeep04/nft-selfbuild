@@ -1,0 +1,5 @@
+[
+  "function mintLocked(address to, uint256 id, uint256 amount, bytes data) external",
+  "function balanceOf(address account, uint256 id) external view returns (uint256)",
+  "function uri(uint256 id) external view returns (string)"
+]
