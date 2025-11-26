@@ -48,7 +48,7 @@ export default function Home() {
   const checkBalance = async () => {
     if (!walletAddress) return;
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.BrowserProvider((window as any).ethereum);
       const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
       const bal = await contract.balanceOf(walletAddress, selectedId);
       setBalance(bal.toString());
@@ -59,9 +59,9 @@ export default function Home() {
   const fetchMetadata = async () => {
     try {
       // 読み取り専用プロバイダ（MetaMask不要で読めるように公共RPCを使う手もあるが、今回はMetaMask経由）
-      // ※未接続でも読めるようにしたい場合はJsonRpcProviderを使うが、簡略化のためwindow.ethereumがある前提
-      if (!window.ethereum) return;
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      // ※未接続でも読めるようにしたい場合はJsonRpcProviderを使うが、簡略化のため(window as any).ethereumがある前提
+      if (!(window as any).ethereum) return;
+      const provider = new ethers.BrowserProvider((window as any).ethereum);
       const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
 
       // 1. コントラクトからURIを取得 (ipfs://Qm.../{id}.json)
@@ -102,7 +102,7 @@ export default function Home() {
     setStatusMsg("MetaMaskで署名してください...");
 
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.BrowserProvider((window as any).ethereum);
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 
