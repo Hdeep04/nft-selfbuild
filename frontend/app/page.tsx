@@ -31,11 +31,11 @@ export default function Home() {
   };
 
   const connectWallet = async () => {
-    if (!window.ethereum) return;
+    if (!(window as any).ethereum) return;
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.BrowserProvider((window as any).ethereum);
       try {
-        await window.ethereum.request({
+        await (window as any).ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: '0x13882' }],
         });
