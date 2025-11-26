@@ -1,20 +1,29 @@
-# MyNFT Project
+# NFT Self-Build Project
 
-This project demonstrates a basic Hardhat use case.
-これはHardhatの基本的な使い方を示すプロジェクトです。
+東京大学ブロックチェーン講座コミュニティ企画「みんなでNFT作ろう」に向けた、個人検証用プロジェクトです。
+チーム公式仕様のコントラクトを使用し、デプロイからフロントエンド実装までを検証しています。
 
-This is a Soulbound Token (SBT) contract based on ERC721, which means the token is non-transferable after being minted.
-このコントラクトは、一度ミントされたら転送不可能なSBT（ソウルバウンド・トークン）です。
+## 🛠 Tech Stack
+- **Blockchain**: Polygon Amoy Testnet
+- **Contract**: Solidity (ERC-1155 + IERC5192 Soulbound)
+  - Based on: `TsukuroSBT.sol` (Official Team Spec)
+  - Tool: Hardhat
+- **Frontend**: Next.js (TypeScript) + ethers.js
+- **Storage**: IPFS (Pinata)
+- **Deployment**: AWS Amplify
 
-## How to Use / 使い方
+## 📂 Directory Structure
+- `contracts/`: Smart Contracts (Hardhat)
+- `scripts/`: Deployment & Verification Scripts
+- `frontend/`: Next.js Web Application
+- `test/`: Contract Tests
 
-First, install the dependencies:
-まず、以下のコマンドで依存関係をインストールします。
+## 🚀 Live Demo
+[https://main.d2gd2977jraxj2.amplifyapp.com/]
 
-npm install
-
-
-Then, you can run the tests:
-次に、テストを実行します。
-
-npx hardhat test
+## ✅ Verification Status
+- [x] Contract Deployment (Amoy)
+- [x] SBT Logic Verification (Locked event)
+- [x] IPFS Metadata Integration (ID 1-4)
+- [x] Frontend Implementation (Connect Wallet / Mint)
+- [x] AWS Deployment
