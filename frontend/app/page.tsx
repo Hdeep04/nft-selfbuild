@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 
-const CONTRACT_ADDRESS = "0x2787e4085CC7CB8f95F6D03A19281Ff06D2D1A6e";
+const CONTRACT_ADDRESS = "0x4f38f060388cabAdD37672077Ac97059B67BA2E2";
 
 const ABI = [
   "function mintLocked(address to, uint256 id, uint256 amount, bytes data) external",
