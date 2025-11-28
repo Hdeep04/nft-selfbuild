@@ -28,6 +28,8 @@ contract TsukuroSBT is ERC1155, Ownable, IERC5192 {
         }
         require(amount == 1, "SBT: amount must be 1");
 
+        require(balanceOf(to, id) == 0, "SBT: User already has this token");
+
         _mint(to, id, amount, data);
 
         _locked[id] = true;
