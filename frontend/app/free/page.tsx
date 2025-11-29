@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 
-// コントラクトアドレス (最新のもの)
+// コントラクトアドレス
 const CONTRACT_ADDRESS = "0x9879d20A2730d0C7512f2F306FC9F333E4F50853";
 
 const ABI = [
@@ -15,6 +15,7 @@ export default function FreeMintPage() {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [balance, setBalance] = useState<string>("-");
   const [statusMsg, setStatusMsg] = useState<string>("");
+  const [isMinting, setIsMinting] = useState<boolean>(false); // 追加: ローディング状態
   const [selectedId, setSelectedId] = useState<number>(1);
   const [nftImage, setNftImage] = useState<string>("");
   const [nftName, setNftName] = useState<string>("");
@@ -73,27 +74,49 @@ export default function FreeMintPage() {
     checkBalance();
   }, [selectedId, walletAddress]);
 
-  // ★ここが違う！無料ミント用関数
+  // ★無料ミント用関数（バックエンド呼び出し）
   const mintFreeNFT = async () => {
     if (!walletAddress) return;
-    setStatusMsg("⏳ バックエンドにリクエスト送信中... (Mock)");
+    setIsMinting(true);
+    setStatusMsg("⏳ バックエンドにリクエスト送信中...");
     
-    // TODO: ここでバックエンドAPIを叩く
-    setTimeout(() => {
-      setStatusMsg("🚧 現在バックエンド開発中です。まだミントできません。");
-    }, 1000);
+    try {
+      const response = await fetch("/api/mint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userAddress: walletAddress,
+          tokenId: selectedId,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Mint failed");
+      }
+
+      console.log("Success:", data.txHash);
+      setStatusMsg("✅ ミント成功！ 運営がガス代を負担しました");
+      checkBalance();
+
+    } catch (error: any) {
+      console.error(error);
+      setStatusMsg(`❌ エラー: ${error.message}`);
+    } finally {
+      setIsMinting(false);
+    }
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-900 text-white font-sans py-10">
-      {/* タイトルを変えて分かりやすく */}
       <div className="bg-green-600 text-white px-4 py-1 rounded-full text-xs font-bold mb-4 animate-bounce">
         ✨ 会場限定・ガス代無料キャンペーン中 ✨
       </div>
       <h1 className="text-4xl font-bold mb-8 text-green-400">Free NFT Mint</h1>
 
       <div className="flex flex-col md:flex-row gap-8 w-full max-w-4xl px-4">
-        {/* 左側: プレビュー (同じ) */}
+        {/* 左側: プレビュー */}
         <div className="flex-1 bg-gray-800 p-6 rounded-xl border border-gray-700 flex flex-col items-center shadow-2xl">
           <div className="w-64 h-64 bg-black rounded-lg mb-4 flex items-center justify-center overflow-hidden border border-gray-600">
             {nftImage ? <img src={nftImage} className="object-cover w-full h-full" /> : <p className="text-gray-500">Loading...</p>}
@@ -104,7 +127,6 @@ export default function FreeMintPage() {
 
         {/* 右側: 操作パネル */}
         <div className="flex-1 bg-gray-800 p-6 rounded-xl border border-green-500 shadow-2xl relative overflow-hidden">
-          {/* 無料感を出す装飾 */}
           <div className="absolute top-0 right-0 bg-green-500 text-black text-xs font-bold px-2 py-1">FREE</div>
 
           <p className="mb-2 font-bold text-gray-300">Select Design:</p>
@@ -119,16 +141,29 @@ export default function FreeMintPage() {
               <div className="mb-4 text-sm">Wallet: <span className="font-mono text-green-400">{walletAddress.slice(0,6)}...{walletAddress.slice(-4)}</span></div>
               <p className="text-xl font-bold mb-4">{balance === "1" ? "✅ 取得済み" : "未取得"}</p>
               
-              {/* 無料ミントボタン */}
               <button
                 onClick={mintFreeNFT}
-                disabled={balance === "1"}
-                className="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg shadow-green-500/30"
+                disabled={isMinting || balance === "1"}
+                className={`w-full font-bold py-4 px-8 rounded-xl transition-all shadow-lg ${
+                  isMinting || balance === "1"
+                    ? "bg-gray-600 cursor-not-allowed text-gray-400" 
+                    : "bg-green-600 hover:bg-green-500 text-white shadow-green-500/30"
+                }`}
               >
-                {balance === "1" ? "Already Minted" : `Free Mint NFT #${selectedId}`}
+                {isMinting 
+                  ? "Processing..." 
+                  : balance === "1" 
+                    ? "Already Minted" 
+                    : `Free Mint NFT #${selectedId}`
+                }
               </button>
               <p className="mt-2 text-xs text-center text-gray-400">※運営がガス代を負担します</p>
-              {statusMsg && <p className="mt-4 text-center text-sm text-yellow-300">{statusMsg}</p>}
+              
+              {statusMsg && (
+                <p className={`mt-4 text-center text-sm ${statusMsg.includes("エラー") ? "text-red-400" : "text-yellow-300"}`}>
+                  {statusMsg}
+                </p>
+              )}
             </div>
           ) : (
             <button onClick={connectWallet} className="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-4 px-8 rounded-xl">Connect Wallet</button>
