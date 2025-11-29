@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 
 async function main() {
   // 今回デプロイしたTsukuroSBTのアドレス
-  const CONTRACT_ADDRESS = "0x2787e4085CC7CB8f95F6D03A19281Ff06D2D1A6e";
+  const CONTRACT_ADDRESS = "0x9879d20A2730d0C7512f2F306FC9F333E4F50853";
   
   // ★ここにPinataで取得したフォルダのCIDを入れてください
   const FOLDER_CID = "bafybeifftoo2s4nwt4kvtnrhmgmv5z4joy5vjmnbegska3cky4kjeexwmm";
@@ -16,7 +16,7 @@ async function main() {
   const sbt = TsukuroSBT.attach(CONTRACT_ADDRESS);
 
   // setURI実行
-  const tx = await sbt.setURI(newURI);
+  const tx = await (sbt as any).setURI(newURI);
   
   console.log(`Transaction sent: ${tx.hash}`);
   await tx.wait();
