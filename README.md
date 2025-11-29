@@ -12,18 +12,18 @@
 - **Storage**: IPFS (Pinata)
 - **Deployment**: AWS Amplify
 
-## 📂 Directory Structure
-- `contracts/`: Smart Contracts (Hardhat)
-- `scripts/`: Deployment & Verification Scripts
-- `frontend/`: Next.js Web Application
-- `test/`: Contract Tests
-
 ## 🚀 Live Demo
-[https://main.d2gd2977jraxj2.amplifyapp.com/]
+- **通常版 (Public Mint)**: https://main.d2gd2977jraxj2.amplifyapp.com/
+  - ガス代: ユーザー負担
+  - 対象: 一般公開用
+- **会場限定版 (Gasless Mint)**: https://main.d2gd2977jraxj2.amplifyapp.com/free
+  - ガス代: 運営負担 (Backend API経由)
+  - 対象: イベント会場用
 
 ## ✅ Verification Status
 - [x] Contract Deployment (Amoy)
-- [x] SBT Logic Verification (Locked event)
+- [x] SBT Logic Fix (2人目ミント可 / 1人1個制限)
 - [x] IPFS Metadata Integration (ID 1-4)
 - [x] Frontend Implementation (Connect Wallet / Mint)
-- [x] AWS Deployment
+- [x] Backend API Implementation (Gasless Mint)
+- [x] AWS Deployment (CI/CD)
